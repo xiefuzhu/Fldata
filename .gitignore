@@ -1,0 +1,40 @@
+# OS & Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml
+*.swp
+*~
+
+# Flutter / Dart / Pub
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+/build/
+/coverage/
+/portable/
+.work/
+*.log
+
+# Android local & signing files
+/android/.gradle/
+/android/captures/
+/android/local.properties
+/android/key.properties
+**/*.keystore
+**/*.jks
+
+# macOS / Xcode ephemeral
+/macos/Flutter/ephemeral/
+/macos/Pods/
+**/xcuserdata/
+
+# Windows ephemeral
+/windows/flutter/ephemeral/
+
+# External reference files (keep .doc/ specs tracked)
+/*.pdf
+!/.doc/
+!/.doc/**
