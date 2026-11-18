@@ -9,3 +9,4 @@ analyzer:
     - macos/**
   errors:
     invalid_annotation_target: ignore
+    deprecated_member_use: ignore
