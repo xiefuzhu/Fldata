@@ -51,6 +51,42 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+          cache: 'gradle'
+
+      - name: Configure Gradle Maven Central mirror
+        run: |
+          mkdir -p ~/.gradle/init.d
+          cat << 'EOF' > ~/.gradle/init.d/maven-mirror.init.gradle.kts
+          import org.gradle.api.artifacts.repositories.MavenArtifactRepository
+
+          val gcsMavenCentral = "https://maven-central.storage-download.googleapis.com/maven2/"
+
+          fun RepositoryHandler.useMavenCentralMirror() {
+              withType<MavenArtifactRepository>().configureEach {
+                  val repoUrl = url.toString()
+                  if (repoUrl.startsWith("https://repo.maven.apache.org/maven2") ||
+                      repoUrl.startsWith("https://repo1.maven.org/maven2")
+                  ) {
+                      setUrl(gcsMavenCentral)
+                  }
+              }
+          }
+
+          beforeSettings {
+              pluginManagement.repositories {
+                  maven(gcsMavenCentral)
+                  google()
+                  gradlePluginPortal()
+              }
+              pluginManagement.repositories.useMavenCentralMirror()
+              dependencyResolutionManagement.repositories.useMavenCentralMirror()
+          }
+
+          beforeProject {
+              buildscript.repositories.useMavenCentralMirror()
+              repositories.useMavenCentralMirror()
+          }
+          EOF
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
